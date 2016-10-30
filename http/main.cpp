@@ -41,6 +41,9 @@ public:
 		// 
 		// switch() is (ab)used to allow resumption from within deeper inside the function's loops
 		// with minimal state tracking.
+		//
+		// One design goal was to minimize allocations -- a significant problem with all the latest
+		// callback-based async libraries. I was able to get rid of virtually all heap allocation.
 
 		switch (m_state)
 		{
@@ -115,8 +118,6 @@ public:
 
 private:
 	enum { on_start, on_connect, on_send, on_receive, on_disconnect } m_state;
-
-	ADDRINFOEXW m_dns_hints;
 
 	char const *m_sendbuf;
 	int m_sendleft;
