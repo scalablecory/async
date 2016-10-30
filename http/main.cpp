@@ -40,10 +40,14 @@ public:
 		// so the function must return to be resumed at a later time.
 		// 
 		// switch() is (ab)used to allow resumption from within deeper inside the function's loops
-		// with minimal state tracking.
+		// with minimal state tracking. Please don't confuse that with good design. Variable
+		// initialization becomes annoying and the whole thing becomes a little weird to read if you
+		// need to resume from within your own switch().
 		//
 		// One design goal was to minimize allocations -- a significant problem with all the latest
-		// callback-based async libraries. I was able to get rid of virtually all heap allocation.
+		// callback-based async libraries. I was able to get rid of virtually all heap allocation,
+		// instead choosing to keep track of things with member variables m_connect_ctx, m_ctx, etc.
+		// to maximize locality.
 
 		switch (m_state)
 		{
