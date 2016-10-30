@@ -35,6 +35,13 @@ public:
 
 	void step()
 	{
+		// This realizes that I/O tends to be highly buffered, and many times an op can be completed
+		// synchronously. An I/O call returning false means it -did not- complete synchronously, and
+		// so the function must return to be resumed at a later time.
+		// 
+		// switch() is (ab)used to allow resumption from within deeper inside the function's loops
+		// with minimal state tracking.
+
 		switch (m_state)
 		{
 		case on_start:
